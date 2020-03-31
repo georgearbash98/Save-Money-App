@@ -26,14 +26,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
-    // Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
-    // Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
-    // Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
-    // Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
-    // Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
-    // Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
-    // Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
+    Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
+    Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
+    Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
+    Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
+    Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
+    Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
+    Transaction(id: 't1', title: 'New shoes', amount: 70, date: DateTime.now()),
+    Transaction(id: 't2', title: 'New bag', amount: 69, date: DateTime.now()),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -42,15 +42,21 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(String txTitle, double txAmount, DateTime dt) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: dt,
     );
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(int index) {
+    setState(() {
+      _userTransactions.removeAt(index);
     });
   }
 
@@ -82,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),

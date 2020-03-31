@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
@@ -12,15 +13,15 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
-  
+  DateTime _pickedDate;
 
   void submitData() {
     final enterdTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
-    if (enterdTitle.isEmpty || enteredAmount <= 0) return;
+    if (enterdTitle.isEmpty || enteredAmount <= 0 || _pickedDate == null) return;
 
-    widget.addNewTransaction(enterdTitle, enteredAmount);
+    widget.addNewTransaction(enterdTitle, enteredAmount, _pickedDate);
 
     Navigator.of(context).pop();
   }
@@ -32,9 +33,10 @@ class _NewTransactionState extends State<NewTransaction> {
       firstDate: DateTime(2019),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
-      if (pickedDate == null)
-      return;
-
+      if (pickedDate == null) return;
+      setState(() {
+        _pickedDate = pickedDate;
+      });
     });
   }
 
@@ -62,12 +64,19 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 70,
               child: Row(
                 children: <Widget>[
-                  Text('No Date Chosen!'),
-                  FlatButton(
-                    onPressed:_showDatePicker,
+                  Expanded(
+                      child: Text(_pickedDate == null
+                          ? 'No Date Chosen!'
+                          : 'Picked date: ${DateFormat().add_yMd().format(_pickedDate)}')),
+                  RaisedButton(
+                    onPressed: _showDatePicker,
+                    textColor: Colors.white,
+                    color: Colors.blue,
                     child: Text(
-                      'choose date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      'Choose date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
