@@ -1,6 +1,8 @@
-# save_your_money
+# save your money
 
-A new Flutter project.
+A new Flutter project, this app is used for tracking your purchases to let you save money.
+
+this app also shows you the last 7 days spending in a chart!.
 
 ## Getting Started
 
